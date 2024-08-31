@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pexels Image Gallery</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Image Gallery</h1>
+    <div class="gallery" id="gallery"></div>
+    <div class="lightbox" id="lightbox">
+      <span class="close" onclick="closeLightbox()">&times;</span>
+      <button class="nav-button" id="prev" onclick="changeImage(-1)">
+        &#10094;
+      </button>
+      <button class="nav-button" id="next" onclick="changeImage(1)">
+        &#10095;
+      </button>
+      <div class="lightbox-content">
+        <img id="lightbox-img" src="" alt="Lightbox image" />
+      </div>
+      <div class="photo-credit" id="photo-credit"></div>
+    </div>
+
+    <script>
+      const apiKey = "jrdE81rm7lPr3EmgdAwFoaxV7FGBPPIDwIk1slQ9UBfM5r4cJk0oEoYe";
+      const gallery = document.getElementById("gallery");
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightbox-img");
+      const photoCredit = document.getElementById("photo-credit");
+      let currentIndex = 0;
+      let images = [];
+
+      async function fetchImages() {
+        try {
+          const response = await fetch(
+            "https://api.pexels.com/v1/search?query=nature&per_page=15",
+            {
+              headers: {
+                Authorization: apiKey,
+              },
+            }
+          );
+          const data = await response.json();
+          images = data.photos.map((photo) => ({
+            src: photo.src.large,
+            photographer: photo.photographer,
+            photographerUrl: photo.photographer_url,
+          }));
+          populateGallery();
+        } catch (error) {
+          console.error("Error fetching images:", error);
+        }
+      }
+
+      function populateGallery() {
+        images.forEach((image, index) => {
+          const img = document.createElement("img");
+          img.src = image.src;
+          img.alt = `Image by ${image.photographer}`;
+          img.onclick = () => openLightbox(index);
+          gallery.appendChild(img);
+        });
+      }
+
+      function openLightbox(index) {
+        lightbox.style.display = "flex";
+        showImage(index);
+      }
+
+      function closeLightbox() {
+        lightbox.style.display = "none";
+      }
+
+      function showImage(index) {
+        currentIndex = index;
+        const image = images[currentIndex];
+        lightboxImg.src = image.src;
+        lightboxImg.alt = `Image by ${image.photographer}`;
+        photoCredit.innerHTML = `Photo by <a href="${image.photographerUrl}" target="_blank">${image.photographer}</a> on Pexels`;
+      }
+
+      function changeImage(step) {
+        currentIndex = (currentIndex + step + images.length) % images.length;
+        showImage(currentIndex);
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (lightbox.style.display === "flex") {
+          if (e.key === "ArrowLeft") changeImage(-1);
+          if (e.key === "ArrowRight") changeImage(1);
+          if (e.key === "Escape") closeLightbox();
+        }
+      });
+
+      fetchImages();
+    </script>
+  </body>
+</html>

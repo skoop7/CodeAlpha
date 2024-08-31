@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Saurabh Kobarne - Creative Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <div class="header-bg"></div>
+      <h1>Saurabh Kobarne</h1>
+      <p>B.Tech Graduate | Aspiring Software Developer</p>
+    </header>
+
+    <div class="container">
+      <section id="about">
+        <h2>About Me</h2>
+        <p>
+          I am a recent B.Tech graduate from MITWPU, eager to start my career in
+          the tech industry. With a passion for software development, I've honed
+          my skills through hands-on experience with various projects. I'm
+          excited to bring my fresh perspective and innovative ideas to the
+          world of technology.
+        </p>
+      </section>
+
+      <section id="skills-section">
+        <h2>Skills</h2>
+        <div class="skills-container">
+          <div class="skill">HTML</div>
+          <div class="skill">CSS</div>
+          <div class="skill">JavaScript</div>
+          <div class="skill">MySQL</div>
+          <div class="skill">Java</div>
+          <div class="skill">Spring Boot</div>
+        </div>
+      </section>
+
+      <section id="projects">
+        <h2>Projects</h2>
+        <div class="projects-container">
+          <div class="project">
+            <h3>Blog App</h3>
+            <p>
+              A dynamic web application for creating and managing blog posts,
+              showcasing my full-stack development skills.
+            </p>
+          </div>
+          <div class="project">
+            <h3>Inventory Management System</h3>
+            <p>
+              An efficient system to track and manage inventory for businesses,
+              demonstrating my ability to create practical, data-driven
+              solutions.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <h2>Contact</h2>
+        <div class="contact-info">
+          <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <p>skobarne7@gmail.com</p>
+          </div>
+          <div class="contact-item">
+            <i class="fab fa-linkedin"></i>
+            <p>linkedin.com/in/saurabh-kobarne</p>
+          </div>
+          <div class="contact-item">
+            <i class="fab fa-github"></i>
+            <p>github.com/skoop7</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const skills = document.querySelectorAll(".skill");
+      skills.forEach((skill) => {
+        skill.addEventListener("click", () => {
+          skill.style.backgroundColor =
+            skill.style.backgroundColor === "var(--secondary-color)"
+              ? "var(--primary-color)"
+              : "var(--secondary-color)";
+        });
+      });
+
+      function revealOnScroll() {
+        var sections = document.querySelectorAll("section");
+        sections.forEach((section) => {
+          var sectionTop = section.getBoundingClientRect().top;
+          var windowHeight = window.innerHeight;
+          if (sectionTop < windowHeight * 0.75) {
+            section.style.opacity = "1";
+            section.style.transform = "translateY(0)";
+          }
+        });
+      }
+
+      window.addEventListener("scroll", revealOnScroll);
+      window.addEventListener("load", revealOnScroll);
+
+      document.querySelectorAll("section").forEach((section) => {
+        section.style.opacity = "0";
+        section.style.transform = "translateY(20px)";
+        section.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+      });
+    </script>
+  </body>
+</html>
